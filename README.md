@@ -1,0 +1,2 @@
+# platzigram
+App with Django
