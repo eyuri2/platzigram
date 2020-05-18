@@ -9,7 +9,39 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.shortcuts import redirect, render
 
+# Forms
+from users.forms import ProfileForm
 from users.models import Profile
+
+
+def update_profile(request):
+    """Update user's profile view."""
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+
+            profile.website = data['website']
+            profile.phone_number = data['phone_number']
+            profile.biography = data['biography']
+            profile.picture = data['picture']
+            profile.save()
+            
+            return redirect('update_profile')
+    else:
+        form = ProfileForm()
+    
+    return render(
+        request=request, 
+        template_name='users/update_profile.html',
+        context={
+            'profile': profile,
+            'user': request.user,
+            'form': form
+        }
+    )
 
 
 def login_view(request):
