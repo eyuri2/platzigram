@@ -1,4 +1,4 @@
-"""platzigram URL Configuration"""
+"""Platzigram URL module."""
 
 # Django
 from django.conf import settings
